@@ -7,7 +7,7 @@ class redmine::database {
       require => Class['mysql::server']
     }
 
-    database { [$redmine::production_database,$redmine::development_database]:
+    mysql_database { [$redmine::production_database,$redmine::development_database]:
       ensure  => present,
       charset => 'utf8'
     }
@@ -20,7 +20,7 @@ class redmine::database {
       privileges => ['all']
     }
 
-    database_grant { "${redmine::database_user}@${redmine::database_server}/${redmine::development_database}":
+    mysql_grant { "${redmine::database_user}@${redmine::database_server}/${redmine::development_database}":
       privileges => ['all']
     }
 
