@@ -47,6 +47,9 @@
 # [*smtp_domain*]
 #   Domain to send emails from. Default: $::domain
 #
+# [*ruby_home*]
+#   Directory where Ruby is installed. Default: '/usr'
+#
 class redmine (
   $version              = '2.2.3',
   $download_url         = '',
@@ -56,7 +59,8 @@ class redmine (
   $production_database  = 'redmine',
   $development_database = 'redmine_development',
   $smtp_server          = 'localhost',
-  $smtp_domain          = $::domain
+  $smtp_domain          = $::domain,
+  $ruby_home            = '/usr',
 ) {
 
   class { 'redmine::params': } ->

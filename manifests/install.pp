@@ -6,6 +6,10 @@ class redmine::install {
     path => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/' ]
   }
 
+  notice("Redmine::install using ${redmine::ruby_home}/bin/bundle")
+
+  $bundler = "${redmine::ruby_home}/bin/bundle"
+
   exec { 'redmine_source':
     command => "wget ${redmine::params::download_url}",
     creates => "/usr/src/redmine-${redmine::version}.tar.gz",
@@ -16,8 +20,9 @@ class redmine::install {
     creates => "/usr/src/redmine-${redmine::version}"
   } ->
 
+
   exec { 'bundle_redmine':
-    command => "bundle install --gemfile /usr/src/redmine-${redmine::version}/Gemfile --without development test && touch .bundle",
+    command => "${bundler} install --gemfile /usr/src/redmine-${redmine::version}/Gemfile --without development test && touch .bundle",
     creates => "/usr/src/redmine-${redmine::version}/.bundle",
   }
 
