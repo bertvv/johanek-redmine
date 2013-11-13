@@ -9,7 +9,7 @@ class redmine::install {
 
   $rails_gem = "${ruby}/rails"
   $bundler_gem = "${ruby}/bundler"
-  $bundler = "${ruby_home}/bin/bundle"
+  $bundler = "${ruby_home}@global/bin/bundle"
 
   rvm_system_ruby { $ruby:
     ensure      => present,
