@@ -60,10 +60,14 @@ class redmine (
   $development_database = 'redmine_development',
   $smtp_server          = 'localhost',
   $smtp_domain          = $::domain,
-  $ruby_home            = '/usr',
+  $ruby_version         = '2.0.0-p247',
+  $passenger_version    = '4.0.23',
 ) {
 
+  $src = "/usr/src/redmine-${version}"
+
   class { 'redmine::params': } ->
+  class { 'redmine::download': } ->
   class { 'redmine::install': } ->
   class { 'redmine::config': } ->
   class { 'redmine::database': } ->

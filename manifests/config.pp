@@ -4,30 +4,18 @@ class redmine::config {
   require 'apache'
 
   File {
-    owner => $redmine::params::apache_user,
-    group => $redmine::params::apache_group,
+    owner => $::redmine::params::apache_user,
+    group => $::redmine::params::apache_group,
     mode  => '0644'
   }
 
   file { '/var/www/html/redmine':
     ensure => link,
-    target => "/usr/src/redmine-${redmine::version}"
+    target => $::redmine::src
   }
 
   Exec {
-    cmd => "/bin/chown -R ${redmine::params::apache_user}.${redmine::params::apache_group} /usr/src/redmine-${redmine::version}"
-  }
-
-  file { '/var/www/html/redmine/config/database.yml':
-    ensure  => present,
-    content => template('redmine/database.yml.erb'),
-    require => File['/var/www/html/redmine']
-  }
-
-  file { '/var/www/html/redmine/config/configuration.yml':
-    ensure  => present,
-    content => template('redmine/configuration.yml.erb'),
-    require => File['/var/www/html/redmine']
+    cmd => "/bin/chown -R ${::redmine::params::apache_user}.${::redmine::params::apache_group} ${::redmine::src}"
   }
 
   apache::vhost { 'redmine':
